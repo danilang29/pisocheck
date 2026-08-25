@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { countPhotosByRoom, getInspection, photosByInspection, saveInspection } from '../db'
 import { generateReport } from '../pdf/report'
 import type { Inspection } from '../types'
+import { isUnlocked, REPORT_PRICE, STRIPE_PAYMENT_LINK, tryUnlock } from '../utils/license'
 import { fmtDate, uid } from '../utils/photo'
 
 export default function InspectionView() {
@@ -10,6 +11,10 @@ export default function InspectionView() {
   const [inspection, setInspection] = useState<Inspection | null>(null)
   const [counts, setCounts] = useState<Record<string, number>>({})
   const [progress, setProgress] = useState<string | null>(null)
+  const [paywall, setPaywall] = useState(false)
+  const [unlocked, setUnlocked] = useState(isUnlocked())
+  const [code, setCode] = useState('')
+  const [codeError, setCodeError] = useState(false)
 
   async function refresh() {
     if (!id) return
@@ -36,19 +41,36 @@ export default function InspectionView() {
     setInspection(updated)
   }
 
-  async function onGenerate() {
+  async function generate(sample: boolean) {
     if (!inspection) return
+    setPaywall(false)
     setProgress('Preparando informe…')
     try {
       const photos = await photosByInspection(inspection.id)
-      await generateReport(inspection, photos, (done, total) =>
-        setProgress(`Preparando foto ${done} de ${total}…`),
-      )
+      await generateReport(inspection, photos, {
+        sample,
+        onProgress: (done, total) => setProgress(`Preparando foto ${done} de ${total}…`),
+      })
     } catch (err) {
       alert('No se pudo generar el informe. Inténtalo de nuevo.')
       console.error(err)
     } finally {
       setProgress(null)
+    }
+  }
+
+  function onGenerateClick() {
+    if (unlocked) generate(false)
+    else setPaywall(true)
+  }
+
+  async function onValidateCode() {
+    if (await tryUnlock(code)) {
+      setUnlocked(true)
+      setCodeError(false)
+      generate(false)
+    } else {
+      setCodeError(true)
     }
   }
 
@@ -107,11 +129,63 @@ export default function InspectionView() {
         <button
           className="btn btn-primary btn-block"
           disabled={totalPhotos === 0 || progress !== null}
-          onClick={onGenerate}
+          onClick={onGenerateClick}
         >
           {progress ?? '📄 Generar informe PDF'}
         </button>
       </div>
+
+      {paywall && (
+        <div className="overlay" onClick={() => setPaywall(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h2>Tu informe está listo</h2>
+            <p className="muted">
+              El informe completo incluye todas tus fotos con fecha, GPS y huella digital SHA-256,
+              sin marca de agua — listo para enviar al propietario o a la agencia.
+            </p>
+
+            {STRIPE_PAYMENT_LINK ? (
+              <>
+                <a
+                  className="btn btn-primary btn-block"
+                  href={STRIPE_PAYMENT_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Informe completo — {REPORT_PRICE}
+                </a>
+                <p className="hint">
+                  Tras el pago verás tu código de desbloqueo. Introdúcelo aquí:
+                </p>
+              </>
+            ) : (
+              <p className="hint">
+                ¿Ya tienes un código de desbloqueo? Introdúcelo aquí:
+              </p>
+            )}
+
+            <div className="addrow">
+              <input
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value)
+                  setCodeError(false)
+                }}
+                placeholder="Código de desbloqueo"
+                autoCapitalize="characters"
+              />
+              <button type="button" className="btn btn-secondary" onClick={onValidateCode}>
+                Validar
+              </button>
+            </div>
+            {codeError && <p className="error">Código no válido. Revisa que esté bien escrito.</p>}
+
+            <button className="btn-link" onClick={() => generate(true)}>
+              Descargar muestra gratis (con marca de agua)
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -35,10 +35,15 @@ async function loadPhoto(rec: PhotoRecord, num: number): Promise<LoadedPhoto> {
   return { rec, dataUrl, w: img.naturalWidth, h: img.naturalHeight, num }
 }
 
+export interface ReportOptions {
+  sample?: boolean
+  onProgress?: (done: number, total: number) => void
+}
+
 export async function generateReport(
   inspection: Inspection,
   photos: PhotoRecord[],
-  onProgress?: (done: number, total: number) => void,
+  { sample = false, onProgress }: ReportOptions = {},
 ): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' })
   const generatedAt = Date.now()
@@ -175,10 +180,25 @@ export async function generateReport(
     }
   }
 
-  // ---- Pie de página ----
+  // ---- Pie de página y marca de agua ----
   const pageCount = doc.getNumberOfPages()
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i)
+    if (sample) {
+      doc.saveGraphicsState()
+      doc.setGState(doc.GState({ opacity: 0.16 }))
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(72)
+      doc.setTextColor(...BRAND)
+      doc.text('MUESTRA', PAGE_W / 2, PAGE_H / 2 + 30, { align: 'center', angle: 45 })
+      doc.restoreGraphicsState()
+      doc.setFont('helvetica', 'bold')
+      doc.setFontSize(8)
+      doc.setTextColor(...BRAND)
+      doc.text('VERSIÓN DE MUESTRA — el informe completo se entrega sin marca de agua', PAGE_W / 2, 6, {
+        align: 'center',
+      })
+    }
     doc.setFont('helvetica', 'normal')
     doc.setFontSize(8)
     doc.setTextColor(...GRAY)
@@ -191,7 +211,7 @@ export async function generateReport(
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
     .slice(0, 40)
-  doc.save(`pisocheck-${inspection.type}-${slug || 'informe'}.pdf`)
+  doc.save(`pisocheck-${sample ? 'muestra-' : ''}${inspection.type}-${slug || 'informe'}.pdf`)
 }
 
 function drawRoomHeader(doc: jsPDF, room: Room, count: number, continued = false): number {
