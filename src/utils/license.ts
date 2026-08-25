@@ -6,9 +6,7 @@
 
 const UNLOCK_HASH = '6fce84e5cedf62318c60f61c4e20d997bb8d41193a3566e49f337270b53284b8'
 
-// Pega aquí el enlace de pago de Stripe (https://buy.stripe.com/...).
-// Mientras esté vacío, la app no muestra el botón de pago.
-export const STRIPE_PAYMENT_LINK = ''
+export const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/bJecN7fsZ9Wb56t29obfO00'
 
 export const REPORT_PRICE = '8,99 €'
 
