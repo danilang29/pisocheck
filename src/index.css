@@ -1,0 +1,417 @@
+:root {
+  --bg: #f2f5f9;
+  --card: #ffffff;
+  --ink: #18202e;
+  --muted: #67707e;
+  --brand: #2563eb;
+  --brand-dark: #1e50c8;
+  --brand-soft: #e8effd;
+  --line: #e3e8ef;
+  --danger: #dc2626;
+  --ok: #16a34a;
+  --radius: 14px;
+  --shadow: 0 1px 3px rgba(16, 24, 40, 0.07);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 18px 16px 110px;
+}
+
+h1 {
+  font-size: 26px;
+  letter-spacing: -0.4px;
+  margin: 10px 0 4px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 22px 0 10px;
+}
+
+p {
+  margin: 6px 0;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+  margin: 10px 0 16px;
+}
+
+.hint.processing {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+/* ---- Marca / cabeceras ---- */
+.brand {
+  margin-bottom: 18px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.brand p {
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+.topbar {
+  margin-bottom: 6px;
+}
+
+.back {
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* ---- Botones ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+}
+
+.btn-primary:disabled {
+  background: #9db4e8;
+  cursor: default;
+}
+
+.btn-secondary {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.btn-secondary:hover {
+  background: #dbe7fb;
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+  margin: 14px 0;
+}
+
+.btn-ghost {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.btn-ghost:hover {
+  background: var(--bg);
+}
+
+/* ---- Tarjetas y listas ---- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.inspection-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.inspection-link {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.inspection-link h2 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+}
+
+.inspection-link p {
+  margin: 0;
+}
+
+.inspection-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.badge-entrada {
+  background: #e5f6ec;
+  color: var(--ok);
+}
+
+.badge-salida {
+  background: #fdf0e0;
+  color: #c2700a;
+}
+
+.room-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  padding: 15px 16px;
+}
+
+.room-row:hover {
+  border-color: var(--brand);
+}
+
+.room-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.room-count {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.room-count.ok {
+  color: var(--ok);
+}
+
+/* ---- Formularios ---- */
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 14px 0;
+}
+
+input:not([type='checkbox']),
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px 14px;
+  font-size: 16px;
+  font-family: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--brand);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.two-col label {
+  margin: 0;
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  background: var(--line);
+  border-radius: var(--radius);
+  padding: 5px;
+  margin: 16px 0;
+}
+
+.seg button {
+  border: none;
+  background: none;
+  padding: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 10px;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.seg button.active {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.checkrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 2px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+
+.checkrow input {
+  width: 19px;
+  height: 19px;
+  accent-color: var(--brand);
+}
+
+.addrow {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.addrow input {
+  margin-top: 0;
+  flex: 1;
+}
+
+.addrow .btn {
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+/* ---- Fotos ---- */
+.photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.photo-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.photo-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px 0 10px;
+}
+
+.photo-meta .muted {
+  font-size: 12px;
+}
+
+.note-input {
+  border: none !important;
+  border-top: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+  font-size: 13px !important;
+  padding: 8px 10px !important;
+  margin-top: 4px !important;
+}
+
+/* ---- Acciones inferiores ---- */
+.bottom-actions {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(transparent, var(--bg) 30%);
+}
+
+.bottom-actions .btn {
+  max-width: 528px;
+  margin: 0 auto;
+}
+
+/* ---- Vacíos ---- */
+.empty {
+  margin: 16px 0;
+}
+
+.empty ol {
+  padding-left: 20px;
+  line-height: 1.55;
+}
+
+.empty li {
+  margin-bottom: 10px;
+}
+
+.danger {
+  color: var(--danger);
+}
