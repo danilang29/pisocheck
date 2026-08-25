@@ -247,6 +247,10 @@ label {
   margin: 14px 0;
 }
 
+input[hidden] {
+  display: none !important;
+}
+
 input:not([type='checkbox']),
 textarea {
   display: block;
