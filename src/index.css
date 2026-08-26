@@ -69,8 +69,185 @@ p {
 }
 
 .brand h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin: 0;
   font-size: 30px;
+}
+
+/* ---- Landing ---- */
+.hero {
+  padding: 26px 0 8px;
+}
+
+.hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 26px;
+}
+
+.hero h1 {
+  font-size: 38px;
+  line-height: 1.08;
+  letter-spacing: -1px;
+  margin: 0 0 14px;
+}
+
+.hero-sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0 0 22px;
+}
+
+.hero-sub strong {
+  color: var(--ink);
+}
+
+.btn-hero {
+  font-size: 17px;
+  padding: 16px 18px;
+}
+
+.hero-trust {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13.5px;
+  margin: 4px 0 0;
+}
+
+.stat-card {
+  background: var(--brand-soft);
+  border-color: #c9dafa;
+  margin: 26px 0;
+}
+
+.stat-card p {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.5;
+}
+
+.landing section {
+  margin-top: 34px;
+}
+
+.landing h2 {
+  font-size: 22px;
+  letter-spacing: -0.3px;
+  margin: 0 0 12px;
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding: 0 0 18px 46px;
+  line-height: 1.5;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checklist li {
+  position: relative;
+  padding: 5px 0 5px 30px;
+  line-height: 1.45;
+}
+
+.checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 2px;
+  color: var(--ok);
+  font-weight: 800;
+}
+
+.price-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.price-card {
+  margin: 0;
+  text-align: center;
+  padding: 18px 14px;
+}
+
+.price-card h3 {
+  margin: 0 0 4px;
+  font-size: 15px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.price-card .price {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  letter-spacing: -0.5px;
+}
+
+.price-card .muted {
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.price-card.featured {
+  border-color: var(--brand);
+  border-width: 2px;
+}
+
+.price-card.featured .price {
+  color: var(--brand);
+}
+
+.cta-final {
+  margin-top: 38px;
+}
+
+.site-footer {
+  margin-top: 44px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.site-footer p {
+  font-size: 13px;
 }
 
 .brand p {
